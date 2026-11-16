@@ -19,7 +19,7 @@ Only the debug build:
 - reads knobs from `/data/ampr_emu_tune.txt` at start
   ([Tune file](#tune-file)); release ignores the file;
 - records failed file calls for `/fsfail` and writes the black box
-  `/data/ampr_emu_trace.txt`;
+  `/download/ampr_emu_trace.txt`;
 - in a title with packs, installs pass-through probes (hook ids 112..=119:
   dup, dup2, poll, select, openat, fstatat, faccessat, readlink) that log a
   packed file or virtual fd reaching a call the runtime does not serve. A
@@ -232,7 +232,7 @@ not under `/app0`, `-` none. With a writable /app0 every miss is `M`
 ## Black box
 
 When the game dies before port 9090 answers, read
-`/data/ampr_emu_trace.txt` (`crates/ampr-sys/src/rt/blackbox.rs`). It is
+`/download/ampr_emu_trace.txt` (`crates/ampr-sys/src/rt/blackbox.rs`). It is
 written as events happen, so it survives the crash, and holds:
 
 - the loaded modules with segment addresses, at start and after each module

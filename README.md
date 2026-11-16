@@ -38,9 +38,9 @@ copies two files to the project root:
 - `libSceAmpr-debug.sprx`, the same runtime plus metrics, tuning and
   failure logs, for testing ([docs/debug-build.md](docs/debug-build.md)).
 
-Every push to main also publishes both files as the
-[beta pre-release](https://github.com/quer3q/ampr-emu-ng/releases/tag/beta);
-its launch notice reads `v<version>-beta.<commit>`.
+This fork publishes verified builds with diagnostic traces in
+`/download/ampr_emu_trace.txt`. The `libSceAmpr-debug.sprx` asset is the
+diagnostic build; install it as `libSceAmpr.sprx` in the game's `fakelib/`.
 
 ## Thanks
 
@@ -54,3 +54,9 @@ its launch notice reads `v<version>-beta.<commit>`.
 ## License
 
 GPL-3.0-or-later, the same as upstream (`LICENSE`).
+
+## Fork diagnostic builds
+
+This fork keeps diagnostic logs in `/download`, outside mounted game images. Source changes on `main` build and verify the modules and publish the results in this fork's Releases.
+
+The upstream release workflow checks the latest stable release of `quer3q/ampr-emu-ng` every six hours. New source is merged into this fork, its own CI is preserved, the log patch is reapplied and checked, and a reusable workflow builds and publishes the result. A source conflict or an unexpected logging implementation stops the update for review. Unchanged releases are not rebuilt, and failed builds are retried. Both workflows support manual runs.

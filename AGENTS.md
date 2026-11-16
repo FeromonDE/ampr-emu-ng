@@ -128,7 +128,7 @@ runtime creates its own threads through `create_internal`
 included, and only counts the mounts and the BUSY answers, and
 `sceSaveDataSaveIconByPath` hands a packed icon to `sceSaveDataSaveIcon` as
 bytes.
-CI (`.github/workflows/build.yml`) runs the same commands; a pushed `v*` tag creates a draft release with both `.sprx` and `SHA256SUMS`.
+CI (`.github/workflows/build.yml`) runs the same commands on source pushes and manual/reusable requests, then publishes both `.sprx` and `SHA256SUMS` in a fork release. `.github/workflows/upstream-release.yml` checks stable upstream releases every six hours, preserving this fork's workflows and diagnostic trace path.
 
 ## Conventions
 
@@ -235,7 +235,7 @@ CI (`.github/workflows/build.yml`) runs the same commands; a pushed `v*` tag cre
 `docs/debug-build.md` covers the debug build: the pages on port 9090
 (`/metrics`, `/set`, `/bench`, `/fsfail`, `/modules`, `/queues`,
 `/threads`), the tune file, the op letters and the black box
-`/data/ampr_emu_trace.txt`. Keep it in sync with `serve` in
+`/download/ampr_emu_trace.txt`. Keep it in sync with `serve` in
 `rt/exports.rs`, `FsEvents` in `rt/stats.rs`, `KNOBS` in `rt/tune.rs` and
 `rt/blackbox.rs`. When one install works and another does not, run the
 same debug build on both and diff `/fsfail` and `/modules`.

@@ -1,4 +1,4 @@
-//! Debug-only crash black box: `/data/ampr_emu_trace.txt`, written as
+//! Debug-only crash black box: `/download/ampr_emu_trace.txt`, written as
 //! things happen so it survives a crash that kills the process before the
 //! metrics server answers (one such crash, ~1 s after start with no :9090,
 //! was the `_open` hook re-entering itself through libkernel `open`, see
@@ -18,7 +18,7 @@ use super::sys;
 use core::ffi::{c_char, c_int};
 use core::sync::atomic::{AtomicI32, Ordering};
 
-const PATH: &core::ffi::CStr = c"/data/ampr_emu_trace.txt";
+const PATH: &core::ffi::CStr = c"/download/ampr_emu_trace.txt";
 const O_WRONLY: c_int = 0x1;
 const O_APPEND: c_int = 0x8;
 const O_CREAT: c_int = 0x200;
