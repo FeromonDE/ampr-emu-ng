@@ -21,7 +21,8 @@ if args.check:
         raise SystemExit(f"Unexpected diagnostic trace path: {path!r}")
 else:
     source.write_bytes(data.replace(path, target))
-    for name in ["AGENTS.md", "docs/debug-build.md"]:
+    for name in ["docs/debug-build.md"]:
         doc = root / name
-        doc.write_bytes(doc.read_bytes().replace(path, target))
+        contents = doc.read_bytes().replace(b"/data/ampr_emu_trace.txt", target)
+        doc.write_bytes(contents.replace(path, target))
 print("Diagnostic trace: /download/ampr_emu_trace.txt")

@@ -9,7 +9,8 @@ on:
       - 'Makefile'
       - 'ps5/**'
       - 'tools/**'
-      - '.github/workflows/build.yml'
+      - '!tools/sync_upstream_release.py'
+      - '!tools/patch_download_log.py'
   workflow_dispatch:
   workflow_call:
     inputs:
@@ -28,14 +29,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      RUSTUP_TOOLCHAIN: 1.99.0
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - name: Verify diagnostic trace path
         run: python3 tools/patch_download_log.py --check
+      - name: Match Rust version to the PS5 build
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import re
+
+          recipe = Path("ps5/Dockerfile").read_text()
+          match = re.search(r"^ENV RUSTUP_TOOLCHAIN=(\S+)", recipe, re.MULTILINE)
+          if not match:
+              raise SystemExit("Rust toolchain missing from ps5/Dockerfile")
+          with open(os.environ["GITHUB_ENV"], "a") as output:
+              output.write(f"RUSTUP_TOOLCHAIN={match.group(1)}\n")
+          PY
       - name: Install Rust
         run: rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal
       - uses: actions/cache@v4

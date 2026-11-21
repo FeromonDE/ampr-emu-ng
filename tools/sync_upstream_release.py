@@ -35,6 +35,12 @@ def sync():
         # The fork owns its build and update workflows. Keep them while
         # merging upstream source, recipes, dependencies and tests.
         run("git", "restore", "--source=HEAD", "--staged", "--worktree", ".github/workflows")
+        # Agent guidance follows upstream. Fork CI and logging details live
+        # in the README and scripts, so edits to guidance cannot block a release.
+        if run("git", "ls-files", "--", "AGENTS.md") or run(
+            "git", "ls-tree", "--name-only", upstream_sha, "--", "AGENTS.md"
+        ):
+            run("git", "restore", f"--source={upstream_sha}", "--staged", "--worktree", "AGENTS.md")
         conflicts = run("git", "diff", "--name-only", "--diff-filter=U")
         if conflicts:
             raise RuntimeError(f"Upstream merge needs review: {conflicts}")

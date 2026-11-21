@@ -1,6 +1,13 @@
 name: Patch and build upstream releases
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/sync_upstream_release.py'
+      - 'tools/patch_download_log.py'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/upstream-release.yml'
   schedule:
     - cron: '27 */6 * * *'
   workflow_dispatch:
