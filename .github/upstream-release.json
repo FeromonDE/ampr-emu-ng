@@ -1,6 +1,6 @@
 {
   "repository": "quer3q/ampr-emu-ng",
-  "tag": "v0.5.0",
-  "sha": "d20210e224871864bee0888193c7c1062890639c",
+  "tag": "v0.5.1",
+  "sha": "e1789c11bf36c2f4e9b67c5452935c1816674a2c",
   "release_asset": "libSceAmpr-debug.sprx"
 }
